@@ -27,21 +27,23 @@ function App() {
 
 
   return (
-    <div
-      className="grid"
-      style={{
-        gridTemplateColumns: `repeat(${numCols}, 20px)`
-      }}
-    >
-      {grid.map((rows, i) => 
-        rows.map((col, k) => (
-          <div
-            key={`${i}-${k}`}
-            className={grid[i][k] ? 'cell alive' : 'cell dead'}
-            onClick={() => handleCellClick(i, k)}
-          />
-        ))
-      )}
+    <div className='App'>
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: `repeat(${numCols}, 20px)`
+        }}
+      >
+        {grid.map((rows, i) => 
+          rows.map((col, k) => (
+            <div
+              key={`${i}-${k}`}
+              className={grid[i][k] ? 'cell alive' : 'cell dead'}
+              onClick={() => handleCellClick(i, k)}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }
