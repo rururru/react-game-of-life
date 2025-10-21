@@ -1,14 +1,23 @@
 .App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
+  width: 90%;
+  margin: auto;
 }
 
 .grid {
   display: grid;
+  justify-content: center;
+  align-items: center;
   border: 1px solid #ddd;
-  line-height: 0px;
+  line-height: 0;
+  flex-grow: 1;
+  width: 100%;
+  margin: 0px auto 20px;
+
 }
 
 .cell {
@@ -25,5 +34,5 @@
 }
 
 .cell.alive {
-  background-color: black;
+  background-color: #80d180;
 }

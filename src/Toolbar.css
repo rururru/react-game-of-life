@@ -1,0 +1,42 @@
+.toolbar {
+    display: flex;
+    width: 100%;
+    margin: 20px 0px;
+    justify-content: space-between;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+}
+
+button {
+    padding: 7px;
+    background-color: #66c866;
+    color: white;
+    border-radius: 1rem;
+    border: none;
+    min-width: 50px;
+    transition: transform 0.1s ease;
+}
+
+button:hover {
+    background-color: #33b533;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.toolbar-info {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.toolbar-info label {
+    display: flex;
+    align-items: center;
+}

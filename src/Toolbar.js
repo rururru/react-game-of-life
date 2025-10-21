@@ -1,3 +1,5 @@
+import './Toolbar.css';
+
 function Toolbar({
   onPlayPause,
   running,
@@ -11,9 +13,9 @@ function Toolbar({
     <div className="toolbar">
       <div className="buttons">
         <button onClick={onPlayPause}>
-          {running ? '▐▐' : '▶'}
+          {running ? <i className="bi bi-pause-fill"></i> : <i className="bi bi-play-fill"></i>}
         </button>
-        <button onClick={onRandom}>Random</button>
+        <button onClick={onRandom}><i className="bi bi-dice-5"></i></button>
         <button onClick={onClear}>Clear</button>
       </div>
       <div className="toolbar-info">
