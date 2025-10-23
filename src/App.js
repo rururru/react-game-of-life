@@ -2,25 +2,14 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import './App.css';
 import Toolbar from './Toolbar';
 
-const numRows = 30;
-const numCols = 50;
-
+const cellSize = 20;
 const operations = [
   [0, 1], [0, -1], [1, -1], [1, 0], [1, 1], [-1, -1], [-1, 0], [-1, 1]
-]
-
-// Create Empty Grid
-const createEmptyGrid = () => {
-  const rows = [];
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array(numCols).fill(0));
-  }
-  return rows;
-}
+];
 
 function App() {
 
-  const [grid, setGrid] = useState(() => createEmptyGrid());
+  const [grid, setGrid] = useState([]);
   const [running, setRunning] = useState(false);
   const [generation, setGeneration] = useState(0);
   const [speed, setSpeed] = useState(200);
@@ -31,26 +20,59 @@ function App() {
   const speedRef = useRef(speed);
   speedRef.current = speed;
 
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    const calculateAndSetGrid = () => {
+      if (!gridRef.current) {
+        return;
+      }
+
+      const newCols = Math.floor(gridRef.current.offsetWidth / cellSize);
+      const newRows = Math.floor(gridRef.current.offsetHeight / cellSize);
+      console.log(gridRef.current.offsetHeight)
+      
+
+      const rows = []
+      for (let i = 0; i < newRows; i++) {
+        rows.push(Array(newCols).fill(0));
+      }
+      setGrid(rows);
+      setGeneration(0);
+      setRunning(false);
+    };
+
+    calculateAndSetGrid();
+    window.addEventListener('resize', calculateAndSetGrid);
+
+    return () => window.removeEventListener('resize', calculateAndSetGrid);
+  }, []);
+
   const runSimulation = useCallback(() => {
     if (!runningRef.current) {
       return;
     }
 
     setGrid(g => {
-      const newGrid = g.map(row => [...row]);
+      if (g.length === 0 || g[0].length === 0) return g;
+
+      const numRows = g.length;
+      const numCols = g[0].length;
+      const newGrid = g.map((row) => [...row]);
+
       for (let i = 0; i < numRows; i++) {
         for (let k = 0; k < numCols; k++) {
           let neighbors = 0;
           operations.forEach(([x, y]) => {
             const newI = i + x;
             const newK = k + y;
-            if (0 <= newI && newI < numRows && 0 <= newK && newK < numCols) {
+            if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
               neighbors += g[newI][newK];
             }
           });
           if (neighbors < 2 || neighbors > 3) {
             newGrid[i][k] = 0;
-          } else if (g[i][k] === 0 && neighbors === 3) {
+          } else if (g[i][k] === 0 & neighbors === 3){
             newGrid[i][k] = 1;
           }
         }
@@ -72,6 +94,9 @@ function App() {
   };
 
   const handleRandom = () => {
+    if (grid.length === 0 || grid[0].length === 0) return;
+    const numRows = grid.length;
+    const numCols = grid[0].length;
     const rows = [];
     for (let i = 0; i < numRows; i++) {
       rows.push(Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0)));
@@ -81,7 +106,14 @@ function App() {
   };
 
   const handleClear = () => {
-    setGrid(createEmptyGrid());
+    if (grid.length === 0 || grid[0].length === 0) return;
+    const numRows = grid.length;
+    const numCols = grid[0].length;
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+      rows.push(Array(numCols).fill(0));
+    }
+    setGrid(rows);
     setRunning(false);
     setGeneration(0);
   };
@@ -102,9 +134,10 @@ function App() {
         onSpeedChange={handleSpeedChange}
       />
       <div
+        ref={gridRef}
         className="grid"
         style={{
-          gridTemplateColumns: `repeat(${numCols}, 20px)`
+          gridTemplateColumns: `repeat(${grid[0]?.length || 0}, ${cellSize}px)`
         }}
       >
         {grid.map((rows, i) => 
