@@ -1,3 +1,10 @@
+* {
+  font-family: "Source Code Pro", monospace;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -27,6 +34,10 @@
   border: solid 1px #eee;
   box-sizing: border-box;
   transition: background-color 0.1s ease;
+}
+
+.grid:not(.running) .cell:hover {
+  border: solid 2px #66c866;
 }
 
 .cell.dead {

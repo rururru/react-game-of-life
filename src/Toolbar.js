@@ -21,7 +21,7 @@ function Toolbar({
       <div className="toolbar-info">
         <span>Generation: {generation}</span>
         <label>
-          Speed:
+          Duration:
           <input
             type="range"
             min="50"

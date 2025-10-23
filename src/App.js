@@ -31,7 +31,7 @@ function App() {
       const newCols = Math.floor(gridRef.current.offsetWidth / cellSize);
       const newRows = Math.floor(gridRef.current.offsetHeight / cellSize);
       console.log(gridRef.current.offsetHeight)
-      
+
 
       const rows = []
       for (let i = 0; i < newRows; i++) {
@@ -135,7 +135,7 @@ function App() {
       />
       <div
         ref={gridRef}
-        className="grid"
+        className={`grid ${running ? 'running' : ''}`}
         style={{
           gridTemplateColumns: `repeat(${grid[0]?.length || 0}, ${cellSize}px)`
         }}
